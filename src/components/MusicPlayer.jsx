@@ -9,7 +9,7 @@ const videoSources = [
 
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true); // Default to muted for autoplay compliance
+  const [isMuted, setIsMuted] = useState(false); // Default to unmuted
   const [volume, setVolume] = useState(0.4);
   const playerRef = useRef(null);
   const hasScrolledRef = useRef(false);
@@ -42,7 +42,7 @@ export default function MusicPlayer() {
           events: {
             onReady: (event) => {
               event.target.setVolume(volume * 100);
-              event.target.mute(); // Force mute to allow autoplay
+              event.target.unMute(); // Start unmuted
               
               if (hasScrolledRef.current) {
                 event.target.playVideo();
@@ -113,41 +113,35 @@ export default function MusicPlayer() {
     };
   }, []);
 
-  // Handle Autoplay and Unmuting on User Interaction
+  // Handle Autoplay on User Interaction (scroll, touch, click, keypress)
   useEffect(() => {
-    const startMutedAutoplay = () => {
+    const handleAutoplay = () => {
       hasScrolledRef.current = true;
       if (playerRef.current && typeof playerRef.current.playVideo === 'function') {
-        playerRef.current.mute(); // Keep muted so the browser allows autoplay
-        playerRef.current.playVideo();
-        setIsPlaying(true);
-        window.removeEventListener('scroll', startMutedAutoplay);
-        window.removeEventListener('touchmove', startMutedAutoplay);
-      }
-    };
-
-    const unmuteOnInteraction = () => {
-      if (playerRef.current && typeof playerRef.current.unMute === 'function') {
         playerRef.current.unMute();
         setIsMuted(false);
-        window.removeEventListener('click', unmuteOnInteraction);
-        window.removeEventListener('keydown', unmuteOnInteraction);
-        window.removeEventListener('touchstart', unmuteOnInteraction);
+        playerRef.current.playVideo();
+        setIsPlaying(true);
+        removeListeners();
       }
     };
 
-    window.addEventListener('scroll', startMutedAutoplay, { passive: true });
-    window.addEventListener('touchmove', startMutedAutoplay, { passive: true });
-    window.addEventListener('click', unmuteOnInteraction, { passive: true });
-    window.addEventListener('keydown', unmuteOnInteraction, { passive: true });
-    window.addEventListener('touchstart', unmuteOnInteraction, { passive: true });
+    const removeListeners = () => {
+      window.removeEventListener('scroll', handleAutoplay);
+      window.removeEventListener('touchmove', handleAutoplay);
+      window.removeEventListener('click', handleAutoplay);
+      window.removeEventListener('keydown', handleAutoplay);
+      window.removeEventListener('touchstart', handleAutoplay);
+    };
+
+    window.addEventListener('scroll', handleAutoplay, { passive: true });
+    window.addEventListener('touchmove', handleAutoplay, { passive: true });
+    window.addEventListener('click', handleAutoplay, { passive: true });
+    window.addEventListener('keydown', handleAutoplay, { passive: true });
+    window.addEventListener('touchstart', handleAutoplay, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', startMutedAutoplay);
-      window.removeEventListener('touchmove', startMutedAutoplay);
-      window.removeEventListener('click', unmuteOnInteraction);
-      window.removeEventListener('keydown', unmuteOnInteraction);
-      window.removeEventListener('touchstart', unmuteOnInteraction);
+      removeListeners();
     };
   }, []);
 

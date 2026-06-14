@@ -39,12 +39,18 @@
   scroll-behavior: smooth;
 }
 
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background-color: var(--bg-primary);
   color: var(--text-main);
   font-family: var(--font-body);
   line-height: 1.6;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -325,7 +331,7 @@ a {
   }
   .hero-subtitle {
     font-size: 2.0rem;
-    min-height: 3.2rem;
+    min-height: 5.0rem; /* Stable height when wrapping on tablets */
   }
 }
 
@@ -339,7 +345,7 @@ a {
   }
   .hero-subtitle {
     font-size: 1.8rem;
-    min-height: 2.8rem;
+    min-height: 5.4rem; /* Stable height when wrapping on mobile devices */
   }
   .hero-desc {
     font-size: 1.0rem;
@@ -358,7 +364,7 @@ a {
   }
   .hero-subtitle {
     font-size: 1.4rem;
-    min-height: 2.2rem;
+    min-height: 5.8rem; /* Stable height when wrapping on small viewports */
   }
   
   /* Music Player Mobile Adaptations */
@@ -369,6 +375,23 @@ a {
     width: calc(100% - 40px) !important;
     max-width: 320px !important;
   }
+}
+
+/* Layout Fixes for Mobile Responsiveness */
+.hero-visual {
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-visual pre {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  word-break: break-all !important;
+}
+
+.timeline-container {
+  margin-left: 20px;
 }
 
 /* 3D Scroll Perspective CSS */
