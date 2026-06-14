@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, Volume2, VolumeX, Music } from 'lucide-react';
 
-const videoIds = ['zDy8K0o_ksA', 'ovpDU1thF94', 'p4vW7Gg5sZc'];
+const videoSources = [
+  { id: 'k_l_w9nQfW0', start: 0 }, // Official Audio - starts directly at 0:00
+  { id: 'zDy8K0o_ksA', start: 4 }, // Official Music Video - starts at 4s (skips ambient intro)
+  { id: 'ovpDU1thF94', start: 0 }  // Alternate/Lyrics video fallback
+];
 
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(true); // Default to muted for autoplay compatibility
+  const [isMuted, setIsMuted] = useState(true); // Default to muted for autoplay compliance
   const [volume, setVolume] = useState(0.4);
   const playerRef = useRef(null);
   const hasScrolledRef = useRef(false);
@@ -18,20 +22,22 @@ export default function MusicPlayer() {
     const initPlayer = () => {
       if (playerRef.current) return; // Already initialized
       
+      const currentSource = videoSources[videoIndexRef.current];
       try {
         playerRef.current = new window.YT.Player('yt-player-placeholder', {
           height: '200',
           width: '200',
-          videoId: videoIds[videoIndexRef.current],
+          videoId: currentSource.id,
           playerVars: {
             autoplay: 0,
             controls: 0,
             disablekb: 1,
             loop: 1,
-            playlist: videoIds[videoIndexRef.current], // Enable looping
+            playlist: currentSource.id, // Enable looping
             modestbranding: 1,
             rel: 0,
-            origin: window.location.origin // Crucial for Appwrite hosted domains
+            origin: window.location.origin, // Crucial for Appwrite hosted domains
+            start: currentSource.start // Set exact direct start second
           },
           events: {
             onReady: (event) => {
@@ -50,19 +56,21 @@ export default function MusicPlayer() {
                 setIsPlaying(false);
               } else if (event.data === window.YT.PlayerState.ENDED) {
                 // Force loop/auto-repeat when song finishes
+                const loopSource = videoSources[videoIndexRef.current];
+                event.target.seekTo(loopSource.start); // Seek back to direct start second
                 event.target.playVideo();
                 setIsPlaying(true);
               }
             },
             onError: (event) => {
-              console.warn(`YouTube Player error ${event.data} on video ID ${videoIds[videoIndexRef.current]}. Trying fallback...`);
-              if (videoIndexRef.current < videoIds.length - 1) {
+              console.warn(`YouTube Player error ${event.data} on video ID ${videoSources[videoIndexRef.current].id}. Trying fallback...`);
+              if (videoIndexRef.current < videoSources.length - 1) {
                 videoIndexRef.current += 1;
-                const nextVideoId = videoIds[videoIndexRef.current];
+                const nextSource = videoSources[videoIndexRef.current];
                 if (playerRef.current && typeof playerRef.current.loadVideoById === 'function') {
                   playerRef.current.loadVideoById({
-                    videoId: nextVideoId,
-                    startSeconds: 0
+                    videoId: nextSource.id,
+                    startSeconds: nextSource.start
                   });
                   playerRef.current.playVideo();
                   setIsPlaying(true);
