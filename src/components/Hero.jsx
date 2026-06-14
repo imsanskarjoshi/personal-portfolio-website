@@ -67,9 +67,9 @@ export default function Hero() {
             Available for Freelance & Full-time Roles
           </div>
           
-          <h1 style={{ fontSize: '3.6rem', lineHeight: '1.1', fontWeight: '800' }}>
+          <h1 className="hero-title">
             Hi, I'm <span className="text-gradient">Sanskar Joshi</span> <br />
-            <span style={{ fontSize: '2.5rem', color: 'var(--text-main)', minHeight: '3.8rem', display: 'block' }}>
+            <span className="hero-subtitle">
               I am a <span className="text-gradient-alt">{currentText}</span>
               <span className="cursor" style={{
                 animation: 'blink 1s step-end infinite',
@@ -79,7 +79,7 @@ export default function Hero() {
             </span>
           </h1>
           
-          <p style={{ color: 'var(--text-muted)', fontSize: '1.15rem', maxWidth: '520px' }}>
+          <p className="hero-desc">
             I orchestrate cloud infrastructures, construct automated CI/CD pipelines, and build backend systems. Bridging platform scalability with clean development.
           </p>
 

@@ -294,16 +294,81 @@ a {
   gap: 20px;
 }
 
+/* Hero Typographic Styles */
+.hero-title {
+  font-size: 3.6rem;
+  line-height: 1.1;
+  font-weight: 800;
+}
+
+.hero-subtitle {
+  font-size: 2.5rem;
+  color: var(--text-main);
+  min-height: 3.8rem;
+  display: block;
+}
+
+.hero-desc {
+  color: var(--text-muted);
+  font-size: 1.15rem;
+  max-width: 520px;
+}
+
+/* Responsiveness adjustments */
 @media (max-width: 992px) {
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
   .grid-2 { grid-template-columns: 1fr; }
+  
+  .hero-title {
+    font-size: 3.0rem;
+  }
+  .hero-subtitle {
+    font-size: 2.0rem;
+    min-height: 3.2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section, .timeline-section, .tech-section, .hobbies-section {
+    padding: 60px 0 !important;
+  }
+  
+  .hero-title {
+    font-size: 2.6rem;
+  }
+  .hero-subtitle {
+    font-size: 1.8rem;
+    min-height: 2.8rem;
+  }
+  .hero-desc {
+    font-size: 1.0rem;
+  }
 }
 
 @media (max-width: 600px) {
   .grid-4 { grid-template-columns: 1fr; }
   .grid-3 { grid-template-columns: 1fr; }
   .section-header h2 { font-size: 2.2rem; }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.1rem;
+  }
+  .hero-subtitle {
+    font-size: 1.4rem;
+    min-height: 2.2rem;
+  }
+  
+  /* Music Player Mobile Adaptations */
+  .music-player-container {
+    left: 50% !important;
+    bottom: 20px !important;
+    transform: translateX(-50%) !important;
+    width: calc(100% - 40px) !important;
+    max-width: 320px !important;
+  }
 }
 
 /* 3D Scroll Perspective CSS */
