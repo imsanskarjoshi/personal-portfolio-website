@@ -1,236 +1,89 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Play, Pause, Volume2, VolumeX, Music } from 'lucide-react';
 
-const videoIds = ['F1S-r5vC2xI', 'ovpDU1thF94', 'p4vW7Gg5sZc'];
-const AAC_FALLBACK_URL = 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/69/b9/6e/69b96ef3-4357-3899-44d8-74a944c02715/mzaf_15178080055496793205.plus.aac.p.m4a';
-
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [volume, setVolume] = useState(0.4);
-  const [useHTML5, setUseHTML5] = useState(false);
-  
-  const playerRef = useRef(null);
   const audioRef = useRef(null);
-  const hasScrolledRef = useRef(false);
-  const videoIndexRef = useRef(0);
-  const ytReadyRef = useRef(false);
+  const hasInteractedRef = useRef(false);
 
-  // Initialize YouTube Player
+  // Sync initial volume and mute settings
   useEffect(() => {
-    let ytTimeout = setTimeout(() => {
-      if (!ytReadyRef.current) {
-        console.warn("YouTube API initialization timed out. Switching to HTML5 Audio fallback.");
-        setUseHTML5(true);
-      }
-    }, 4000); // 4-second timeout to load YT
-
-    const initPlayer = () => {
-      if (playerRef.current) return;
-      
-      try {
-        playerRef.current = new window.YT.Player('yt-player-placeholder', {
-          height: '200',
-          width: '200',
-          videoId: videoIds[videoIndexRef.current],
-          playerVars: {
-            autoplay: 0,
-            controls: 0,
-            disablekb: 1,
-            loop: 1,
-            playlist: videoIds[videoIndexRef.current],
-            modestbranding: 1,
-            rel: 0,
-            origin: window.location.origin // Crucial for hosted/production environments
-          },
-          events: {
-            onReady: (event) => {
-              clearTimeout(ytTimeout);
-              ytReadyRef.current = true;
-              event.target.setVolume(volume * 100);
-              if (isMuted) {
-                event.target.mute();
-              } else {
-                event.target.unMute();
-              }
-              if (hasScrolledRef.current) {
-                event.target.playVideo();
-                setIsPlaying(true);
-              }
-            },
-            onStateChange: (event) => {
-              if (event.data === window.YT.PlayerState.PLAYING) {
-                setIsPlaying(true);
-              } else if (event.data === window.YT.PlayerState.PAUSED || event.data === window.YT.PlayerState.ENDED) {
-                setIsPlaying(false);
-              }
-            },
-            onError: (event) => {
-              console.warn(`YouTube Player error ${event.data} on video ID ${videoIds[videoIndexRef.current]}.`);
-              if (videoIndexRef.current < videoIds.length - 1) {
-                videoIndexRef.current += 1;
-                const nextVideoId = videoIds[videoIndexRef.current];
-                if (playerRef.current && typeof playerRef.current.loadVideoById === 'function') {
-                  playerRef.current.loadVideoById({
-                    videoId: nextVideoId,
-                    startSeconds: 0
-                  });
-                  playerRef.current.playVideo();
-                  setIsPlaying(true);
-                }
-              } else {
-                console.warn("All YouTube video fallbacks failed. Switching to HTML5 Audio fallback.");
-                setUseHTML5(true);
-              }
-            }
-          }
-        });
-      } catch (err) {
-        console.error("Failed to initialize YT Player", err);
-        setUseHTML5(true);
-      }
-    };
-
-    if (window.YT && window.YT.Player) {
-      initPlayer();
-    } else {
-      const previousCallback = window.onYouTubeIframeAPIReady;
-      window.onYouTubeIframeAPIReady = () => {
-        if (previousCallback) previousCallback();
-        initPlayer();
-      };
-
-      const hasScript = Array.from(document.getElementsByTagName('script')).some(
-        script => script.src === 'https://www.youtube.com/iframe_api'
-      );
-      if (!hasScript) {
-        const tag = document.createElement('script');
-        tag.src = 'https://www.youtube.com/iframe_api';
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-      }
-    }
-
-    return () => clearTimeout(ytTimeout);
-  }, []);
-
-  // Handle HTML5 fallback source initialization/volume
-  useEffect(() => {
-    if (useHTML5 && audioRef.current) {
+    if (audioRef.current) {
       audioRef.current.volume = volume;
       audioRef.current.muted = isMuted;
-      if (isPlaying || hasScrolledRef.current) {
-        audioRef.current.play().catch(err => {
-          console.log("HTML5 Autoplay prevented. Click play manually.");
-        });
-      }
     }
-  }, [useHTML5]);
+  }, []);
 
-  // Trigger play on scroll or click interaction
+  // Handle autoplay on user interaction (scroll, click, touch, keydown)
   useEffect(() => {
-    const handleAutoplay = () => {
-      hasScrolledRef.current = true;
-      
-      if (useHTML5) {
-        if (audioRef.current) {
-          audioRef.current.play()
-            .then(() => setIsPlaying(true))
-            .catch(() => {});
-        }
-      } else {
-        if (playerRef.current && typeof playerRef.current.playVideo === 'function') {
-          playerRef.current.playVideo();
-          setIsPlaying(true);
-        }
+    const handleInteraction = () => {
+      if (hasInteractedRef.current) return;
+      hasInteractedRef.current = true;
+
+      if (audioRef.current) {
+        audioRef.current.play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((err) => {
+            console.log("Autoplay was blocked by the browser. Play manually.", err);
+          });
       }
+
       removeListeners();
     };
 
     const removeListeners = () => {
-      window.removeEventListener('scroll', handleAutoplay);
-      window.removeEventListener('touchmove', handleAutoplay);
-      window.removeEventListener('click', handleAutoplay);
-      window.removeEventListener('keydown', handleAutoplay);
+      window.removeEventListener('scroll', handleInteraction);
+      window.removeEventListener('touchmove', handleInteraction);
+      window.removeEventListener('click', handleInteraction);
+      window.removeEventListener('keydown', handleInteraction);
     };
 
-    window.addEventListener('scroll', handleAutoplay, { passive: true });
-    window.addEventListener('touchmove', handleAutoplay, { passive: true });
-    window.addEventListener('click', handleAutoplay, { passive: true });
-    window.addEventListener('keydown', handleAutoplay, { passive: true });
+    window.addEventListener('scroll', handleInteraction, { passive: true });
+    window.addEventListener('touchmove', handleInteraction, { passive: true });
+    window.addEventListener('click', handleInteraction, { passive: true });
+    window.addEventListener('keydown', handleInteraction, { passive: true });
 
     return () => {
       removeListeners();
     };
-  }, [useHTML5]);
+  }, []);
 
   const togglePlay = () => {
-    if (useHTML5) {
-      if (audioRef.current) {
-        if (isPlaying) {
-          audioRef.current.pause();
-          setIsPlaying(false);
-        } else {
-          audioRef.current.play()
-            .then(() => setIsPlaying(true))
-            .catch(() => {});
-        }
-      }
-    } else {
-      if (playerRef.current && typeof playerRef.current.playVideo === 'function') {
-        if (isPlaying) {
-          playerRef.current.pauseVideo();
-          setIsPlaying(false);
-        } else {
-          playerRef.current.unMute();
-          setIsMuted(false);
-          playerRef.current.playVideo();
-          setIsPlaying(true);
-        }
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        audioRef.current.play()
+          .then(() => {
+            setIsPlaying(true);
+          })
+          .catch((err) => {
+            console.error("Playback failed:", err);
+          });
       }
     }
   };
 
   const handleMute = () => {
-    const nextMuteState = !isMuted;
-    setIsMuted(nextMuteState);
-
-    if (useHTML5) {
-      if (audioRef.current) {
-        audioRef.current.muted = nextMuteState;
-      }
-    } else {
-      if (playerRef.current && typeof playerRef.current.mute === 'function') {
-        if (nextMuteState) {
-          playerRef.current.mute();
-        } else {
-          playerRef.current.unMute();
-        }
-      }
+    if (audioRef.current) {
+      const nextMuteState = !isMuted;
+      audioRef.current.muted = nextMuteState;
+      setIsMuted(nextMuteState);
     }
   };
 
   const handleVolumeChange = (e) => {
     const val = parseFloat(e.target.value);
     setVolume(val);
-
-    if (useHTML5) {
-      if (audioRef.current) {
-        audioRef.current.volume = val;
-        audioRef.current.muted = val === 0;
-        setIsMuted(val === 0);
-      }
-    } else {
-      if (playerRef.current && typeof playerRef.current.setVolume === 'function') {
-        playerRef.current.setVolume(val * 100);
-        if (val === 0) {
-          playerRef.current.mute();
-          setIsMuted(true);
-        } else {
-          playerRef.current.unMute();
-          setIsMuted(false);
-        }
-      }
+    if (audioRef.current) {
+      audioRef.current.volume = val;
+      audioRef.current.muted = val === 0;
+      setIsMuted(val === 0);
     }
   };
 
@@ -250,31 +103,12 @@ export default function MusicPlayer() {
       width: 'max-content',
       maxWidth: '320px'
     }}>
-      {/* Hidden Fallback HTML5 Audio Tag */}
-      {useHTML5 && (
-        <audio
-          ref={audioRef}
-          src={AAC_FALLBACK_URL}
-          loop
-          style={{ display: 'none' }}
-        />
-      )}
-
-      {/* Off-screen YouTube Player wrapper */}
-      {!useHTML5 && (
-        <div style={{ 
-          position: 'fixed', 
-          bottom: '-1000px', 
-          right: '-1000px', 
-          width: '200px', 
-          height: '200px', 
-          opacity: '0.001', 
-          pointerEvents: 'none',
-          zIndex: -1
-        }}>
-          <div id="yt-player-placeholder"></div>
-        </div>
-      )}
+      {/* Hidden local audio tag */}
+      <audio
+        ref={audioRef}
+        src="/headlights.m4a"
+        loop
+      />
 
       {/* Music Icon & Dynamic Animation waves when playing */}
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -291,7 +125,7 @@ export default function MusicPlayer() {
       {/* Text Info */}
       <div style={{ display: 'flex', flexDirection: 'column', minWidth: '110px' }}>
         <span style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--text-main)', display: 'block', lineHeight: '1.2' }}>
-          Headlights {useHTML5 && "(AAC)"}
+          Headlights
         </span>
         <span style={{ fontSize: '0.65rem', color: 'var(--text-dark)' }}>
           Alok & Alan Walker
