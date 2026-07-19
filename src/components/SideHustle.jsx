@@ -204,7 +204,23 @@ export default function SideHustle() {
           </div>
         );
       default:
-        return null;
+        return (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+            <div style={{
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid var(--border-glass)',
+              borderRadius: '50%',
+              width: '60px',
+              height: '60px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: `0 0 15px ${project.color}22`
+            }}>
+              <span style={{ color: project.color }}>{project.icon}</span>
+            </div>
+          </div>
+        );
     }
   };
 
@@ -331,26 +347,28 @@ export default function SideHustle() {
                 </div>
 
                 {/* Glowing MRR Badge in Upper Left Corner of Graphic */}
-                <div style={{
-                  position: 'absolute',
-                  top: '12px',
-                  left: '12px',
-                  fontSize: '0.75rem',
-                  fontWeight: '700',
-                  color: project.revenue.includes('mo') ? 'var(--accent-secondary)' : '#10b981',
-                  background: project.revenue.includes('mo') ? 'rgba(6,182,212,0.1)' : 'rgba(16,185,129,0.1)',
-                  border: `1px solid ${project.revenue.includes('mo') ? 'rgba(6,182,212,0.3)' : 'rgba(16,185,129,0.3)'}`,
-                  padding: '4px 10px',
-                  borderRadius: '100px',
-                  textTransform: 'uppercase',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '4px',
-                  boxShadow: `0 0 10px ${project.color}11`,
-                  zIndex: 2
-                }}>
-                  <Flame size={12} fill="currentColor" /> {project.revenue}
-                </div>
+                {project.revenue && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '12px',
+                    left: '12px',
+                    fontSize: '0.75rem',
+                    fontWeight: '700',
+                    color: project.revenue.includes('mo') ? 'var(--accent-secondary)' : '#10b981',
+                    background: project.revenue.includes('mo') ? 'rgba(6,182,212,0.1)' : 'rgba(16,185,129,0.1)',
+                    border: `1px solid ${project.revenue.includes('mo') ? 'rgba(6,182,212,0.3)' : 'rgba(16,185,129,0.3)'}`,
+                    padding: '4px 10px',
+                    borderRadius: '100px',
+                    textTransform: 'uppercase',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    boxShadow: `0 0 10px ${project.color}11`,
+                    zIndex: 2
+                  }}>
+                    <Flame size={12} fill="currentColor" /> {project.revenue}
+                  </div>
+                )}
 
                 {/* Category tag in Upper Right Corner */}
                 <div style={{
@@ -394,19 +412,21 @@ export default function SideHustle() {
                 </p>
 
                 {/* Users Count Metrics Info */}
-                <div style={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  gap: '6px', 
-                  fontSize: '0.8rem', 
-                  color: 'var(--text-dark)',
-                  marginBottom: '20px',
-                  borderTop: '1px dashed var(--border-glass)',
-                  paddingTop: '12px'
-                }}>
-                  <Users size={14} style={{ color: 'var(--accent-secondary)' }} />
-                  <span>Installed & scaled by <strong style={{ color: 'var(--text-muted)' }}>{project.users}</strong></span>
-                </div>
+                {project.users && (
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '6px', 
+                    fontSize: '0.8rem', 
+                    color: 'var(--text-dark)',
+                    marginBottom: '20px',
+                    borderTop: '1px dashed var(--border-glass)',
+                    paddingTop: '12px'
+                  }}>
+                    <Users size={14} style={{ color: 'var(--accent-secondary)' }} />
+                    <span>Installed & scaled by <strong style={{ color: 'var(--text-muted)' }}>{project.users}</strong></span>
+                  </div>
+                )}
 
                 {/* Link buttons */}
                 <div style={{
