@@ -230,45 +230,7 @@ export default function SideHustle() {
         
         {/* Section Header */}
         <div className="section-header">
-          <h2>Weekend <span className="text-gradient">Hustles</span> & SaaS</h2>
-          <p>Profitable indie software products, developer utilities, and mobile platforms engineered on weekends for global clients.</p>
-        </div>
-
-        {/* Global Performance/Revenue Stats Header */}
-        <div className="grid-3 scroll-3d-card in-view" style={{ marginBottom: '60px' }}>
-          {metrics.map((metric, idx) => (
-            <div 
-              key={idx} 
-              className="glass-panel stats-header-card" 
-              style={{
-                padding: '24px',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '20px',
-                border: '1px solid var(--border-glass)'
-              }}
-            >
-              <div style={{
-                background: 'rgba(255,255,255,0.03)',
-                padding: '12px',
-                borderRadius: '12px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                border: '1px solid var(--border-glass)'
-              }}>
-                {metric.icon}
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-dark)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  {metric.label}
-                </span>
-                <span style={{ fontSize: '1.8rem', fontWeight: '800', color: 'var(--text-main)', letterSpacing: '-0.02em' }}>
-                  {metric.value}
-                </span>
-              </div>
-            </div>
-          ))}
+          <h2>Side <span className="text-gradient">Hustles</span></h2>
         </div>
 
         {/* Categories / Filter Bar */}
