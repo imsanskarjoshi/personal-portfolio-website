@@ -152,10 +152,6 @@ export default function Hero() {
                 <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#f59e0b' }}></span>
                 <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#10b981' }}></span>
               </div>
-              <div style={{ color: 'var(--text-dark)', fontSize: '0.8rem', fontFamily: 'monospace' }}>
-                sanskar_profile.js
-              </div>
-              <Code size={16} style={{ color: 'var(--text-dark)' }} />
             </div>
           </div>
         </div>
