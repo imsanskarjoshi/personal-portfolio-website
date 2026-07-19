@@ -123,7 +123,7 @@ export default function Hero() {
         {/* Hero Visual Showcase: Profile Photo & Code Terminal */}
         <div className="hero-visual" style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
           {/* 1. Profile Picture Frame */}
-          <div className="hero-photo-wrapper" style={{ maxWidth: '240px', width: '100%' }}>
+          <div className="hero-photo-wrapper" style={{ maxWidth: '360px', width: '100%' }}>
             <div className="hero-photo-frame">
               <img 
                 src={sanskarProfile} 
