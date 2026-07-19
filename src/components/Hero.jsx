@@ -157,32 +157,6 @@ export default function Hero() {
               </div>
               <Code size={16} style={{ color: 'var(--text-dark)' }} />
             </div>
-
-            {/* Terminal Code Body */}
-            <pre style={{
-              fontFamily: 'monospace',
-              fontSize: '0.85rem',
-              color: 'var(--text-muted)',
-              overflowX: 'auto',
-              lineHeight: '1.65'
-            }}>
-              <code>
-                <span style={{ color: 'var(--accent-tertiary)' }}>const</span> <span style={{ color: 'var(--accent-primary)' }}>developer</span> = &#123;<br />
-                &nbsp;&nbsp;name: <span style={{ color: 'var(--accent-secondary)' }}>'Sanskar Joshi'</span>,<br />
-                &nbsp;&nbsp;role: <span style={{ color: 'var(--accent-secondary)' }}>'DevOps & Platform'</span>,<br />
-                &nbsp;&nbsp;specialties: [<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: 'var(--accent-secondary)' }}>'AWS / Kubernetes'</span>,<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: 'var(--accent-secondary)' }}>'CI/CD Pipelines'</span>,<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: 'var(--accent-secondary)' }}>'Spring Boot Backend'</span><br />
-                &nbsp;&nbsp;],<br />
-                &nbsp;&nbsp;sideHustlesLaunched: <span style={{ color: 'var(--accent-primary)' }}>9</span>,<br />
-                &nbsp;&nbsp;readyForChallenges: <span style={{ color: 'var(--accent-tertiary)' }}>true</span><br />
-                &#125;;<br /><br />
-                <span style={{ color: 'var(--text-dark)' }}>// Let's create outstanding things</span><br />
-                <span style={{ color: 'var(--accent-primary)' }}>console</span>.log(developer.readyForChallenges);<br />
-                <span style={{ color: 'var(--accent-secondary)' }}>&gt;&gt; true</span>
-              </code>
-            </pre>
           </div>
         </div>
       </div>
