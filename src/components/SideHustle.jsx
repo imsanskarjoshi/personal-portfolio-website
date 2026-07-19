@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { 
-  Sparkles, Users, Flame, Star, ExternalLink, Activity, 
-  BookOpen, Terminal, Layers, Globe, Database, 
+import {
+  Sparkles, Users, Flame, Star, ExternalLink, Activity,
+  BookOpen, Terminal, Layers, Globe, Database,
   Smartphone, ShieldCheck, Cpu, DollarSign, TrendingUp
 } from 'lucide-react';
 import { Chrome } from './BrandIcons';
+import fintrackImg from '../assets/projects/fintrack.png';
+import rktutorialImg from '../assets/projects/rktutorial.png';
+import codeeazeImg from '../assets/projects/codeeaze.png';
 
 export default function SideHustle() {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -22,50 +25,49 @@ export default function SideHustle() {
       id: 1,
       title: 'FinTrack',
       category: 'Mobile App',
-      desc: 'built with Flutter and AI.',
+      desc: 'Struggling to keep track of where your money goes? Tired of bleeding cash on forgotten, hidden subscriptions? Frustrated with manual spreadsheets? Meet FinTrack—your premium AI-powered personal finance co-pilot, expense manager, and smart budget planner designed to give you absolute control over your financial destiny.',
       link: 'https://play.google.com/store/apps/details?id=com.sanskar.fintrack',
       linkText: 'Google Play Store',
-      color: 'var(--accent-tertiary)',
+      color: 'var(--accent-secondary)',
       icon: <Smartphone size={20} />,
       badge: 'Google Play',
+      image: fintrackImg
     },
 
     {
       id: 2,
       title: 'RK Tutorial',
       category: 'Mobile App',
-      desc: 'built with Flutter and AI.',
+      desc: 'Welcome to RK Tutorial, the ultimate virtual learning platform designed by K.Sharma Sir to help students excel in their academic journey. Whether you are preparing for school exams, competitive boards, or looking to strengthen your core subjects, RK Tutorial provides a structured, high-quality, and interactive educational experience right at your fingertips.',
       link: 'https://play.google.com/store/apps/details?id=com.sanskarjoshi.tuitionapp',
       linkText: 'Google Play Store',
-      color: 'var(--accent-tertiary)',
+      color: 'var(--accent-primary)',
       icon: <Smartphone size={20} />,
       badge: 'Google Play',
+      image: rktutorialImg
     },
     {
       id: 3,
-      title: 'K8sPulse Cluster Dashboard',
-      category: 'Dev Tools',
-      desc: 'Lightweight cluster visualizer that packages Kubernetes API query structures and Prometheus charts in a small 15MB binary.',
-      revenue: '$950/mo MRR',
-      users: '250+ cluster installs',
-      link: 'https://example.com',
-      linkText: 'Order License',
-      color: 'var(--accent-secondary)',
-      icon: <Cpu size={20} />,
-      badge: 'Active MRR',
-      visualType: 'k8s',
-      visualData: { pods: '18/18 Running', cpu: '48%', memory: '62%' }
+      title: 'Code Eaze',
+      category: 'Website',
+      desc: 'A premium technical blog and coding resource platform built to teach and document complex software development concepts.',
+      link: 'https://codeeaze.com',
+      linkText: 'Visit Website',
+      color: 'var(--accent-tertiary)',
+      icon: <Globe size={20} />,
+      badge: 'Active Blog',
+      image: codeeazeImg
     }
   ];
 
-  const filteredProjects = activeCategory === 'All' 
-    ? projectsData 
+  const filteredProjects = activeCategory === 'All'
+    ? projectsData
     : projectsData.filter(p => p.category === activeCategory);
 
   // Render a simulated screenshot/dashboard visual based on project type
   const renderVisualMockup = (project) => {
     const data = project.visualData;
-    
+
     switch (project.visualType) {
       case 'timer':
         return (
@@ -85,7 +87,7 @@ export default function SideHustle() {
         return (
           <div style={{ padding: '16px', fontFamily: 'monospace', fontSize: '0.8rem', display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left', width: '100%' }}>
             {data.lines.map((line, i) => (
-              <div key={i} style={{ 
+              <div key={i} style={{
                 color: line.startsWith('#') ? 'var(--text-main)' : line.startsWith('>>') ? '#22c55e' : 'var(--text-muted)'
               }}>
                 {line}
@@ -109,9 +111,9 @@ export default function SideHustle() {
             {data.tasks.map((task, i) => (
               <div key={i} className="glass-card" style={{ padding: '8px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-glass)', borderRadius: '6px', margin: 0 }}>
                 <span style={{ fontSize: '0.75rem', fontWeight: '500', color: 'var(--text-main)' }}>{task[0]}</span>
-                <span style={{ 
-                  fontSize: '0.65rem', 
-                  padding: '2px 6px', 
+                <span style={{
+                  fontSize: '0.65rem',
+                  padding: '2px 6px',
                   borderRadius: '100px',
                   background: task[1] === 'Done' ? 'rgba(34,197,94,0.1)' : task[1] === 'Progress' ? 'rgba(245,158,11,0.1)' : 'rgba(255,255,255,0.02)',
                   color: task[1] === 'Done' ? '#22c55e' : task[1] === 'Progress' ? '#f59e0b' : 'var(--text-muted)',
@@ -227,7 +229,7 @@ export default function SideHustle() {
   return (
     <section id="sidehustles" className="section-padding-large" style={{ position: 'relative' }}>
       <div className="container">
-        
+
         {/* Section Header */}
         <div className="section-header">
           <h2>Side <span className="text-gradient">Hustles</span></h2>
@@ -303,10 +305,35 @@ export default function SideHustle() {
                   pointerEvents: 'none'
                 }}></div>
 
-                {/* Draw HTML simulated mockup widgets */}
-                <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1 }}>
-                  {renderVisualMockup(project)}
-                </div>
+                {/* Draw image preview or HTML simulated mockup widgets */}
+                {project.image ? (
+                  <div style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    padding: '12px 0',
+                    zIndex: 1
+                  }}>
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      style={{
+                        height: '100%',
+                        width: 'auto',
+                        objectFit: 'contain',
+                        borderRadius: '10px',
+                        boxShadow: '0 6px 18px rgba(0,0,0,0.4)',
+                        border: '1px solid rgba(255,255,255,0.06)'
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1 }}>
+                    {renderVisualMockup(project)}
+                  </div>
+                )}
 
                 {/* Glowing MRR Badge in Upper Left Corner of Graphic */}
                 {project.revenue && (
@@ -353,7 +380,7 @@ export default function SideHustle() {
 
               {/* Project Card Text Content */}
               <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-                
+
                 {/* Title */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
                   <span style={{ color: project.color }}>{project.icon}</span>
@@ -375,11 +402,11 @@ export default function SideHustle() {
 
                 {/* Users Count Metrics Info */}
                 {project.users && (
-                  <div style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: '6px', 
-                    fontSize: '0.8rem', 
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    fontSize: '0.8rem',
                     color: 'var(--text-dark)',
                     marginBottom: '20px',
                     borderTop: '1px dashed var(--border-glass)',
@@ -407,7 +434,7 @@ export default function SideHustle() {
                   }}>
                     {project.badge}
                   </span>
-                  
+
                   <a
                     href={project.link}
                     target="_blank"
