@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import Hero from './components/Hero';
+import SideHustle from './components/SideHustle';
+import Projects from './components/Projects';
 import Timeline from './components/Timeline';
 import TechStack from './components/TechStack';
+import Clients from './components/Clients';
+import InteractiveContact from './components/InteractiveContact';
 import Hobbies from './components/Hobbies';
 import MusicPlayer from './components/MusicPlayer';
 import { Menu, X, ArrowUp } from 'lucide-react';
 import './App.css';
+import sanskarProfile from './assets/sanskar_profile.png';
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -14,8 +19,12 @@ export default function App() {
 
   const navLinks = [
     { id: 'home', label: 'Home' },
+    { id: 'sidehustles', label: 'SaaS Hustles' },
+    { id: 'projects', label: 'Engineering' },
     { id: 'timeline', label: 'Journey' },
     { id: 'skills', label: 'Skills' },
+    { id: 'clients', label: 'Clients' },
+    { id: 'estimator', label: 'Estimator' },
     { id: 'hobbies', label: 'Passions' }
   ];
 
@@ -113,9 +122,17 @@ export default function App() {
             letterSpacing: '-0.02em',
             display: 'flex',
             alignItems: 'center',
-            gap: '8px'
+            gap: '10px'
           }}
         >
+          <img 
+            src={sanskarProfile} 
+            alt="Sanskar Joshi" 
+            className="nav-avatar-img"
+            onError={(e) => {
+              e.target.style.display = 'none';
+            }}
+          />
           <span className="text-gradient">Sanskar Joshi.</span>
         </div>
 
@@ -201,8 +218,12 @@ export default function App() {
       {/* Page Sections */}
       <main>
         <Hero />
+        <SideHustle />
+        <Projects />
         <Timeline />
         <TechStack />
+        <Clients />
+        <InteractiveContact />
         <Hobbies />
       </main>
 

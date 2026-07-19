@@ -275,7 +275,7 @@ Client Details:
             <div className="glass-panel" style={{ padding: '28px' }}>
               <h3 style={{ fontSize: '1.15rem', marginBottom: '16px', fontWeight: '700' }}>3. Secure Booking / Inquiry</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+                <div className="estimator-inputs" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   <input
                     type="text"
                     placeholder="Your Name"
@@ -321,7 +321,7 @@ Client Details:
                   }}
                 ></textarea>
 
-                <div style={{ display: 'flex', gap: '12px', marginTop: '4px' }}>
+                <div className="estimator-actions" style={{ display: 'flex', gap: '12px', marginTop: '4px', flexWrap: 'wrap' }}>
                   <a
                     href={mailtoUrl()}
                     className="btn-primary"
@@ -359,6 +359,18 @@ Client Details:
         .copy-btn:hover {
           background: rgba(255,255,255,0.08) !important;
           border-color: var(--accent-primary) !important;
+        }
+        @media (max-width: 500px) {
+          .estimator-inputs {
+            grid-template-columns: 1fr !important;
+          }
+          .estimator-actions {
+            flex-direction: column !important;
+          }
+          .estimator-actions a, .estimator-actions button {
+            width: 100% !important;
+            justify-content: center !important;
+          }
         }
       `}</style>
     </section>

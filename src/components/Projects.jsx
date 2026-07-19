@@ -117,7 +117,8 @@ export default function Projects() {
                 flexDirection: 'column',
                 height: '100%',
                 position: 'relative',
-                overflow: 'hidden'
+                overflow: 'hidden',
+                background: 'rgba(18, 20, 32, 0.5)'
               }}
             >
               {/* Project Preview Banner */}

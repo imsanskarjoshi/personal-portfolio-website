@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, ArrowRight, Code } from 'lucide-react';
 import { Github, Linkedin, Twitter } from './BrandIcons';
+import sanskarProfile from '../assets/sanskar_profile.png';
 
 const titles = [
   "DevOps Engineer",
@@ -119,54 +120,72 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Hero Code Terminal (Visual Showcase) */}
-        <div className="hero-visual">
-          <div className="glass-panel" style={{ padding: '24px', position: 'relative', overflow: 'hidden' }}>
-            {/* Terminal Header */}
-            <div className="terminal-header" style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-              paddingBottom: '12px',
-              marginBottom: '16px'
-            }}>
-              <div className="dots" style={{ display: 'flex', gap: '8px' }}>
-                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444' }}></span>
-                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#f59e0b' }}></span>
-                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#10b981' }}></span>
+        {/* Hero Visual Showcase: Profile Photo & Code Terminal */}
+        <div className="hero-visual" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {/* Row of Photo & Terminal */}
+          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap', alignItems: 'stretch' }}>
+            {/* 1. Profile Picture Frame */}
+            <div className="hero-photo-wrapper" style={{ flex: '1 1 260px' }}>
+              <div className="hero-photo-frame">
+                <img 
+                  src={sanskarProfile} 
+                  alt="Sanskar Joshi" 
+                  className="hero-photo-img"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
               </div>
-              <div style={{ color: 'var(--text-dark)', fontSize: '0.8rem', fontFamily: 'monospace' }}>
-                sanskar_profile.js
-              </div>
-              <Code size={16} style={{ color: 'var(--text-dark)' }} />
             </div>
 
-            {/* Terminal Code Body */}
-            <pre style={{
-              fontFamily: 'monospace',
-              fontSize: '0.9rem',
-              color: 'var(--text-muted)',
-              overflowX: 'auto',
-              lineHeight: '1.7'
-            }}>
-              <code>
-                <span style={{ color: 'var(--accent-tertiary)' }}>const</span> <span style={{ color: 'var(--accent-primary)' }}>developer</span> = &#123;<br />
-                &nbsp;&nbsp;name: <span style={{ color: 'var(--accent-secondary)' }}>'Sanskar Joshi'</span>,<br />
-                &nbsp;&nbsp;role: <span style={{ color: 'var(--accent-secondary)' }}>'DevOps & Platform Engineer'</span>,<br />
-                &nbsp;&nbsp;specialties: [<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: 'var(--accent-secondary)' }}>'AWS / Kubernetes / Docker'</span>,<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: 'var(--accent-secondary)' }}>'Jenkins & CI/CD Pipelines'</span>,<br />
-                &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: 'var(--accent-secondary)' }}>'Java & Spring Boot Backend'</span><br />
-                &nbsp;&nbsp;],<br />
-                &nbsp;&nbsp;sideHustlesLaunched: <span style={{ color: 'var(--accent-primary)' }}>2</span>,<br />
-                &nbsp;&nbsp;readyForChallenges: <span style={{ color: 'var(--accent-tertiary)' }}>true</span><br />
-                &#125;;<br /><br />
-                <span style={{ color: 'var(--text-dark)' }}>// Let's create something outstanding together</span><br />
-                <span style={{ color: 'var(--accent-primary)' }}>console</span>.log(developer.readyForChallenges);<br />
-                <span style={{ color: 'var(--accent-secondary)' }}>&gt;&gt; true</span>
-              </code>
-            </pre>
+            {/* 2. Interactive Terminal Info */}
+            <div className="glass-panel" style={{ flex: '2 1 300px', padding: '24px', position: 'relative', overflow: 'hidden', minWidth: '280px' }}>
+              {/* Terminal Header */}
+              <div className="terminal-header" style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                paddingBottom: '12px',
+                marginBottom: '16px'
+              }}>
+                <div className="dots" style={{ display: 'flex', gap: '8px' }}>
+                  <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444' }}></span>
+                  <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#f59e0b' }}></span>
+                  <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#10b981' }}></span>
+                </div>
+                <div style={{ color: 'var(--text-dark)', fontSize: '0.8rem', fontFamily: 'monospace' }}>
+                  sanskar_profile.js
+                </div>
+                <Code size={16} style={{ color: 'var(--text-dark)' }} />
+              </div>
+
+              {/* Terminal Code Body */}
+              <pre style={{
+                fontFamily: 'monospace',
+                fontSize: '0.85rem',
+                color: 'var(--text-muted)',
+                overflowX: 'auto',
+                lineHeight: '1.65'
+              }}>
+                <code>
+                  <span style={{ color: 'var(--accent-tertiary)' }}>const</span> <span style={{ color: 'var(--accent-primary)' }}>developer</span> = &#123;<br />
+                  &nbsp;&nbsp;name: <span style={{ color: 'var(--accent-secondary)' }}>'Sanskar Joshi'</span>,<br />
+                  &nbsp;&nbsp;role: <span style={{ color: 'var(--accent-secondary)' }}>'DevOps & Platform'</span>,<br />
+                  &nbsp;&nbsp;specialties: [<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: 'var(--accent-secondary)' }}>'AWS / Kubernetes'</span>,<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: 'var(--accent-secondary)' }}>'CI/CD Pipelines'</span>,<br />
+                  &nbsp;&nbsp;&nbsp;&nbsp;<span style={{ color: 'var(--accent-secondary)' }}>'Spring Boot Backend'</span><br />
+                  &nbsp;&nbsp;],<br />
+                  &nbsp;&nbsp;sideHustlesLaunched: <span style={{ color: 'var(--accent-primary)' }}>9</span>,<br />
+                  &nbsp;&nbsp;readyForChallenges: <span style={{ color: 'var(--accent-tertiary)' }}>true</span><br />
+                  &#125;;<br /><br />
+                  <span style={{ color: 'var(--text-dark)' }}>// Let's create outstanding things</span><br />
+                  <span style={{ color: 'var(--accent-primary)' }}>console</span>.log(developer.readyForChallenges);<br />
+                  <span style={{ color: 'var(--accent-secondary)' }}>&gt;&gt; true</span>
+                </code>
+              </pre>
+            </div>
           </div>
         </div>
       </div>

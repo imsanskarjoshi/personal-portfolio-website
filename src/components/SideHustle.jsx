@@ -1,215 +1,557 @@
-import React from 'react';
-import { Sparkles, Users, Flame, Star, ExternalLink, Activity } from 'lucide-react';
+import React, { useState } from 'react';
+import { 
+  Sparkles, Users, Flame, Star, ExternalLink, Activity, 
+  BookOpen, Terminal, Layers, Globe, Database, 
+  Smartphone, ShieldCheck, Cpu, DollarSign, TrendingUp
+} from 'lucide-react';
+import { Chrome } from './BrandIcons';
 
 export default function SideHustle() {
+  const [activeCategory, setActiveCategory] = useState('All');
+
+  const categories = ['All', 'SaaS & API', 'Chrome Extension', 'Dev Tools', 'Mobile App'];
+
   const metrics = [
-    { label: 'Monthly Revenue', value: '$1,450', icon: <Flame size={18} style={{ color: '#ef4444' }} /> },
-    { label: 'Active SaaS Users', value: '5,200+', icon: <Users size={18} style={{ color: 'var(--accent-secondary)' }} /> },
-    { label: 'Chrome Stars', value: '450+', icon: <Star size={18} style={{ color: '#f59e0b' }} /> }
+    { label: 'Total Recurring Revenue', value: '$8,870/mo', icon: <TrendingUp size={20} style={{ color: '#ef4444' }} /> },
+    { label: 'Active Project Installs', value: '28,000+', icon: <Users size={20} style={{ color: 'var(--accent-secondary)' }} /> },
+    { label: 'One-Time Sales Revenue', value: '$3,650+', icon: <DollarSign size={20} style={{ color: '#10b981' }} /> }
   ];
 
-  return (
-    <section id="sidehustle" className="hustle-section" style={{
-      padding: '100px 0',
-      position: 'relative'
-    }}>
-      <div className="container">
-        <div className="section-header">
-          <h2>Side <span className="text-gradient">Hustle</span> Ventures</h2>
-          <p>Entrepreneurial projects I design, construct, and scale independently outside of my standard roles.</p>
-        </div>
+  const projectsData = [
+    {
+      id: 1,
+      title: 'FocusFlow Chrome Extension',
+      category: 'Chrome Extension',
+      desc: 'A minimalist productivity companion that automatically blocks distractions, tracks deep work intervals, and visualizes focus streaks right in the browser.',
+      revenue: '$1,450/mo MRR',
+      users: '5,200+ users',
+      link: 'https://chrome.google.com/webstore',
+      linkText: 'Chrome Web Store',
+      color: 'var(--accent-tertiary)',
+      icon: <Chrome size={20} />,
+      badge: 'Active MRR',
+      // Visual simulation parameters
+      visualType: 'timer',
+      visualData: { time: '24:59', title: 'Deep Work Session', active: true }
+    },
+    {
+      id: 2,
+      title: 'DevScribe AI API',
+      category: 'SaaS & API',
+      desc: 'A serverless developer API that automatically generates clean, structured markdown documentation directly from public and private Git repositories.',
+      revenue: '$820/mo MRR',
+      users: '180+ developers',
+      link: 'https://rapidapi.com',
+      linkText: 'RapidAPI Portal',
+      color: 'var(--accent-primary)',
+      icon: <BookOpen size={20} />,
+      badge: 'Active MRR',
+      visualType: 'code',
+      visualData: { lang: 'markdown', lines: ['# API Endpoint', 'GET /v1/docs', '>> 200 OK (89ms)'] }
+    },
+    {
+      id: 3,
+      title: 'LogScale Elastic Aggregator',
+      category: 'Dev Tools',
+      desc: 'Log compression and aggregation daemon that reduces Elasticsearch cluster disk indexing sizes by 40% with zero ingestion latency.',
+      revenue: '$2,100 Total',
+      users: '450+ downloads',
+      link: 'https://gumroad.com',
+      linkText: 'Gumroad Shop',
+      color: 'var(--accent-secondary)',
+      icon: <Terminal size={20} />,
+      badge: 'Gumroad Product',
+      visualType: 'logs',
+      visualData: { lines: ['[logscale] Info: compressed 12GB', '[logscale] Ratio: 0.60x (Saved 4.8GB)', '[logscale] Push: EKS ElasticSearch'] }
+    },
+    {
+      id: 4,
+      title: 'TaskDock Desktop Companion',
+      category: 'SaaS & API',
+      desc: 'Electron-based cross-platform desktop companion that aggregates agile tasks, Jira issues, and GitHub tasks in a lightweight offline client.',
+      revenue: '$650/mo MRR',
+      users: '1,200+ active users',
+      link: 'https://microsoft.com',
+      linkText: 'App Store',
+      color: 'var(--accent-tertiary)',
+      icon: <Layers size={20} />,
+      badge: 'Active MRR',
+      visualType: 'tasks',
+      visualData: { tasks: [['Fix VPC latency', 'Done'], ['Helm charts deploy', 'Progress'], ['ArgoCD sync check', 'Todo']] }
+    },
+    {
+      id: 5,
+      title: 'TailwindCraft Page Builder',
+      category: 'SaaS & API',
+      desc: 'A visual drag-and-drop web dashboard that exports production-ready, highly clean semantic HTML and Tailwind CSS components.',
+      revenue: '$1,800/mo MRR',
+      users: '3,100+ accounts',
+      link: 'https://example.com',
+      linkText: 'Visit SaaS Web',
+      color: 'var(--accent-primary)',
+      icon: <Globe size={20} />,
+      badge: 'Active MRR',
+      visualType: 'ui-layout',
+      visualData: { columns: ['Header', 'Hero Grid', 'Pricing Section', 'Footer'] }
+    },
+    {
+      id: 6,
+      title: 'QueryPulse Postgres Optimizer',
+      category: 'SaaS & API',
+      desc: 'Enterprise database analysis SaaS tool that automatically parses Postgres raw explain plan logs and suggests precise missing table indexes.',
+      revenue: '$3,200/mo MRR',
+      users: '600+ DB instances',
+      link: 'https://example.com',
+      linkText: 'Launch Tool',
+      color: 'var(--accent-secondary)',
+      icon: <Database size={20} />,
+      badge: 'Enterprise MRR',
+      visualType: 'metrics',
+      visualData: { title: 'Query Execution Latency', value: '42ms', change: '-74% faster' }
+    },
+    {
+      id: 7,
+      title: 'Statify Spotify Analytics',
+      category: 'Mobile App',
+      desc: 'Fluid mobile application built with Flutter to aggregate personal streaming history, track top artists, and discover listening trends.',
+      revenue: '$450 Total',
+      users: '8,500+ downloads',
+      link: 'https://play.google.com',
+      linkText: 'Google Play Store',
+      color: 'var(--accent-tertiary)',
+      icon: <Smartphone size={20} />,
+      badge: 'Google Play',
+      visualType: 'charts',
+      visualData: { title: 'Top Genres This Week', data: [['Synthwave', '42%'], ['Lo-Fi Beats', '31%'], ['Techno', '27%']] }
+    },
+    {
+      id: 8,
+      title: 'GitGuard Security Scanner',
+      category: 'Dev Tools',
+      desc: 'A lightning-fast CLI utility written in Rust to scan commits locally for exposed AWS credentials and secrets before pushing to origin.',
+      revenue: '$1,100 Total',
+      users: '9,000+ CLI installs',
+      link: 'https://github.com',
+      linkText: 'GitHub Actions',
+      color: 'var(--accent-primary)',
+      icon: <ShieldCheck size={20} />,
+      badge: 'Marketplace tool',
+      visualType: 'scanner',
+      visualData: { status: 'Secure', checked: '14 commits', secrets: '0 exposed' }
+    },
+    {
+      id: 9,
+      title: 'K8sPulse Cluster Dashboard',
+      category: 'Dev Tools',
+      desc: 'Lightweight cluster visualizer that packages Kubernetes API query structures and Prometheus charts in a small 15MB binary.',
+      revenue: '$950/mo MRR',
+      users: '250+ cluster installs',
+      link: 'https://example.com',
+      linkText: 'Order License',
+      color: 'var(--accent-secondary)',
+      icon: <Cpu size={20} />,
+      badge: 'Active MRR',
+      visualType: 'k8s',
+      visualData: { pods: '18/18 Running', cpu: '48%', memory: '62%' }
+    }
+  ];
 
-        <div className="glass-panel" style={{
-          padding: '40px',
-          background: 'linear-gradient(135deg, rgba(18, 20, 32, 0.75), rgba(10, 11, 16, 0.75))',
-          position: 'relative',
-          overflow: 'hidden'
-        }}>
-          {/* Neon abstract glow blob in corner */}
-          <div style={{
-            position: 'absolute',
-            top: '-20%',
-            right: '-10%',
-            width: '250px',
-            height: '250px',
-            borderRadius: '50%',
-            background: 'var(--accent-tertiary)',
-            filter: 'blur(75px)',
-            opacity: 0.15,
-            pointerEvents: 'none'
-          }}></div>
+  const filteredProjects = activeCategory === 'All' 
+    ? projectsData 
+    : projectsData.filter(p => p.category === activeCategory);
 
-          <div className="grid-2" style={{ alignItems: 'center' }}>
-            {/* Project description and details */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                color: 'var(--accent-tertiary)',
-                fontWeight: '600',
-                fontSize: '0.9rem',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em'
-              }}>
-                <Sparkles size={16} /> Active Product Venture
-              </div>
-              
-              <h3 style={{ fontSize: '2.2rem', fontWeight: '800', lineHeight: '1.2' }}>
-                FocusFlow Chrome Extension
-              </h3>
-              
-              <p style={{ color: 'var(--text-muted)', fontSize: '1.05rem', lineHeight: '1.7' }}>
-                FocusFlow is a minimalist productivity companion that automatically blocks distractions, tracks deep work intervals, and visualizes focus streaks right in the browser. I conceptualized, built, and launched it to the Chrome Web Store, scaling it to thousands of weekly active users.
-              </p>
-
-              {/* Metrics row */}
-              <div style={{
-                display: 'flex',
-                gap: '16px',
-                marginTop: '12px',
-                flexWrap: 'wrap'
-              }}>
-                {metrics.map((metric, idx) => (
-                  <div
-                    key={idx}
-                    className="glass-card"
-                    style={{
-                      padding: '16px 20px',
-                      flexGrow: 1,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: '6px',
-                      minWidth: '130px',
-                      background: 'rgba(255, 255, 255, 0.01)',
-                      border: '1px solid var(--border-glass)'
-                    }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-dark)', fontSize: '0.85rem' }}>
-                      {metric.icon}
-                      {metric.label}
-                    </div>
-                    <span style={{ fontSize: '1.6rem', fontWeight: '700', color: 'var(--text-main)' }}>
-                      {metric.value}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '16px', marginTop: '16px' }}>
-                <a
-                  href="https://example.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn-primary"
-                  style={{
-                    background: 'var(--grad-accent)',
-                    boxShadow: '0 4px 15px rgba(217, 70, 239, 0.25)'
-                  }}
-                  onMouseEnter={(e) => e.target.style.boxShadow = '0 6px 20px rgba(217, 70, 239, 0.4)'}
-                  onMouseLeave={(e) => e.target.style.boxShadow = '0 4px 15px rgba(217, 70, 239, 0.25)'}
-                >
-                  Visit Chrome Store <ExternalLink size={16} />
-                </a>
-              </div>
+  // Render a simulated screenshot/dashboard visual based on project type
+  const renderVisualMockup = (project) => {
+    const data = project.visualData;
+    
+    switch (project.visualType) {
+      case 'timer':
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: '10px' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-dark)', fontFamily: 'monospace' }}>{data.title}</span>
+            <div style={{ fontSize: '2.5rem', fontWeight: '800', fontFamily: 'monospace', color: project.color, textShadow: `0 0 10px ${project.color}33` }}>
+              {data.time}
             </div>
-
-            {/* Graphic Showcase mockup */}
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              position: 'relative'
-            }}>
-              {/* Floating window panel simulation */}
-              <div className="glass-panel" style={{
-                width: '100%',
-                maxWidth: '400px',
-                padding: '20px',
-                borderRadius: '16px',
-                border: '1px solid rgba(255, 255, 255, 0.06)',
-                boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <span style={{ fontSize: '0.7rem', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', color: '#22c55e', padding: '2px 8px', borderRadius: '100px' }}>
+                Running
+              </span>
+            </div>
+          </div>
+        );
+      case 'code':
+        return (
+          <div style={{ padding: '16px', fontFamily: 'monospace', fontSize: '0.8rem', display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left', width: '100%' }}>
+            {data.lines.map((line, i) => (
+              <div key={i} style={{ 
+                color: line.startsWith('#') ? 'var(--text-main)' : line.startsWith('>>') ? '#22c55e' : 'var(--text-muted)'
               }}>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  marginBottom: '16px',
-                  borderBottom: '1px solid var(--border-glass)',
-                  paddingBottom: '12px'
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Activity size={18} style={{ color: 'var(--accent-tertiary)' }} />
-                    <span style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--text-main)', fontFamily: 'monospace' }}>
-                      Focus Session active
-                    </span>
-                  </div>
-                  <div style={{
-                    width: '8px',
-                    height: '8px',
-                    borderRadius: '50%',
-                    background: '#22c55e',
-                    boxShadow: '0 0 6px #22c55e',
-                    animation: 'blink 1.5s infinite'
-                  }}></div>
+                {line}
+              </div>
+            ))}
+          </div>
+        );
+      case 'logs':
+        return (
+          <div style={{ padding: '16px', fontFamily: 'monospace', fontSize: '0.75rem', display: 'flex', flexDirection: 'column', gap: '6px', textAlign: 'left', width: '100%' }}>
+            {data.lines.map((line, i) => (
+              <div key={i} style={{ color: line.includes('Saved') ? 'var(--accent-secondary)' : 'var(--text-dark)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {line}
+              </div>
+            ))}
+          </div>
+        );
+      case 'tasks':
+        return (
+          <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+            {data.tasks.map((task, i) => (
+              <div key={i} className="glass-card" style={{ padding: '8px 12px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.01)', border: '1px solid var(--border-glass)', borderRadius: '6px', margin: 0 }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: '500', color: 'var(--text-main)' }}>{task[0]}</span>
+                <span style={{ 
+                  fontSize: '0.65rem', 
+                  padding: '2px 6px', 
+                  borderRadius: '100px',
+                  background: task[1] === 'Done' ? 'rgba(34,197,94,0.1)' : task[1] === 'Progress' ? 'rgba(245,158,11,0.1)' : 'rgba(255,255,255,0.02)',
+                  color: task[1] === 'Done' ? '#22c55e' : task[1] === 'Progress' ? '#f59e0b' : 'var(--text-muted)',
+                  border: `1px solid ${task[1] === 'Done' ? 'rgba(34,197,94,0.2)' : task[1] === 'Progress' ? 'rgba(245,158,11,0.2)' : 'var(--border-glass)'}`
+                }}>{task[1]}</span>
+              </div>
+            ))}
+          </div>
+        );
+      case 'ui-layout':
+        return (
+          <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '6px', height: '100%', width: '100%' }}>
+            <div style={{ height: '24px', background: 'rgba(255,255,255,0.03)', borderRadius: '4px', border: '1px solid var(--border-glass)', display: 'flex', alignItems: 'center', paddingLeft: '8px', fontSize: '0.65rem', color: 'var(--text-dark)' }}>
+              Canvas Layout
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '8px', flexGrow: 1 }}>
+              <div style={{ background: 'rgba(99,102,241,0.05)', border: '1px dashed var(--accent-primary)55', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', color: 'var(--accent-primary)' }}>
+                Sidebar
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <div style={{ height: '35%', background: 'rgba(6,182,212,0.05)', border: '1px dashed var(--accent-secondary)55', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', color: 'var(--accent-secondary)' }}>
+                  Hero Grid
                 </div>
-
-                {/* Simulated content info */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <div style={{
-                    fontSize: '2rem',
-                    fontWeight: '700',
-                    textAlign: 'center',
-                    fontFamily: 'monospace',
-                    margin: '10px 0',
-                    color: 'var(--text-main)'
-                  }}>
-                    24:59
-                  </div>
-                  <div style={{
-                    fontSize: '0.8rem',
-                    color: 'var(--text-dark)',
-                    textAlign: 'center',
-                    marginTop: '-8px'
-                  }}>
-                    Task: Implement Portfolio Estimation
-                  </div>
-                  <div style={{
-                    height: '4px',
-                    background: 'rgba(255, 255, 255, 0.05)',
-                    borderRadius: '10px',
-                    overflow: 'hidden'
-                  }}>
-                    <div style={{
-                      height: '100%',
-                      width: '60%',
-                      background: 'var(--grad-accent)'
-                    }}></div>
-                  </div>
-                  <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    gap: '10px',
-                    marginTop: '8px'
-                  }}>
-                    <div className="glass-card" style={{ padding: '10px', fontSize: '0.8rem', textAlign: 'center' }}>
-                      🔥 12h Streak
-                    </div>
-                    <div className="glass-card" style={{ padding: '10px', fontSize: '0.8rem', textAlign: 'center' }}>
-                      🛡️ 15 Blocked
-                    </div>
-                  </div>
+                <div style={{ flexGrow: 1, background: 'rgba(255,255,255,0.02)', border: '1px dashed var(--border-glass)', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.65rem', color: 'var(--text-dark)' }}>
+                  Main Content
                 </div>
               </div>
             </div>
           </div>
+        );
+      case 'metrics':
+        return (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: '6px' }}>
+            <span style={{ fontSize: '0.8rem', color: 'var(--text-dark)' }}>{data.title}</span>
+            <span style={{ fontSize: '2.4rem', fontWeight: '800', color: '#10b981' }}>{data.value}</span>
+            <span style={{ fontSize: '0.75rem', color: '#10b981', background: 'rgba(16,185,129,0.1)', padding: '2px 8px', borderRadius: '100px', border: '1px solid rgba(16,185,129,0.3)' }}>
+              {data.change}
+            </span>
+          </div>
+        );
+      case 'charts':
+        return (
+          <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px', height: '100%', justifyContent: 'center', width: '100%' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-dark)', fontWeight: '600' }}>{data.title}</span>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              {data.data.map((item, i) => (
+                <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem' }}>
+                    <span style={{ color: 'var(--text-muted)' }}>{item[0]}</span>
+                    <span style={{ fontWeight: '600', color: 'var(--text-main)' }}>{item[1]}</span>
+                  </div>
+                  <div style={{ height: '4px', background: 'rgba(255,255,255,0.05)', borderRadius: '100px', overflow: 'hidden' }}>
+                    <div style={{ height: '100%', width: item[1], background: 'var(--grad-primary)' }}></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        );
+      case 'scanner':
+        return (
+          <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', justifyContent: 'center', height: '100%', gap: '8px', width: '100%' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#10b981', fontSize: '0.9rem', fontWeight: '700' }}>
+              <ShieldCheck size={18} /> CLI Shield Active
+            </div>
+            <div className="dashboard-fallback-widget" style={{ padding: '8px', margin: 0 }}>
+              <div>$ gitguard scan</div>
+              <div style={{ color: '#10b981' }}>✔ {data.checked} checked</div>
+              <div style={{ color: 'var(--text-dark)' }}>{data.secrets}</div>
+            </div>
+          </div>
+        );
+      case 'k8s':
+        return (
+          <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px', height: '100%', justifyContent: 'center', width: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <span style={{ fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--text-main)' }}>k8s pods</span>
+              <span style={{ fontSize: '0.7rem', color: '#10b981', background: 'rgba(16,185,129,0.1)', padding: '1px 6px', borderRadius: '4px' }}>active</span>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+              <div className="dashboard-fallback-widget" style={{ padding: '8px 10px', textAlign: 'center', margin: 0 }}>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-dark)' }}>CPU</div>
+                <div style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--accent-secondary)' }}>{data.cpu}</div>
+              </div>
+              <div className="dashboard-fallback-widget" style={{ padding: '8px 10px', textAlign: 'center', margin: 0 }}>
+                <div style={{ fontSize: '0.65rem', color: 'var(--text-dark)' }}>RAM</div>
+                <div style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--accent-tertiary)' }}>{data.memory}</div>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <section id="sidehustles" className="section-padding-large" style={{ position: 'relative' }}>
+      <div className="container">
+        
+        {/* Section Header */}
+        <div className="section-header">
+          <h2>Weekend <span className="text-gradient">Hustles</span> & SaaS</h2>
+          <p>Profitable indie software products, developer utilities, and mobile platforms engineered on weekends for global clients.</p>
+        </div>
+
+        {/* Global Performance/Revenue Stats Header */}
+        <div className="grid-3 scroll-3d-card in-view" style={{ marginBottom: '60px' }}>
+          {metrics.map((metric, idx) => (
+            <div 
+              key={idx} 
+              className="glass-panel stats-header-card" 
+              style={{
+                padding: '24px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '20px',
+                border: '1px solid var(--border-glass)'
+              }}
+            >
+              <div style={{
+                background: 'rgba(255,255,255,0.03)',
+                padding: '12px',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                border: '1px solid var(--border-glass)'
+              }}>
+                {metric.icon}
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-dark)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  {metric.label}
+                </span>
+                <span style={{ fontSize: '1.8rem', fontWeight: '800', color: 'var(--text-main)', letterSpacing: '-0.02em' }}>
+                  {metric.value}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Categories / Filter Bar */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '12px',
+          marginBottom: '48px',
+          flexWrap: 'wrap'
+        }}>
+          {categories.map((cat, idx) => (
+            <button
+              key={idx}
+              onClick={() => setActiveCategory(cat)}
+              style={{
+                background: activeCategory === cat ? 'var(--grad-primary)' : 'rgba(255, 255, 255, 0.02)',
+                color: activeCategory === cat ? '#fff' : 'var(--text-muted)',
+                border: '1px solid',
+                borderColor: activeCategory === cat ? 'transparent' : 'var(--border-glass)',
+                borderRadius: '8px',
+                padding: '8px 20px',
+                fontFamily: 'var(--font-heading)',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'var(--transition-fast)',
+                boxShadow: activeCategory === cat ? '0 4px 15px rgba(6, 182, 212, 0.15)' : 'none'
+              }}
+              className={activeCategory === cat ? 'filter-btn-active' : ''}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* Projects Dashboard Grid */}
+        <div className="grid-3-auto">
+          {filteredProjects.map((project) => (
+            <div
+              key={project.id}
+              className="glass-panel scroll-3d-card in-view"
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                position: 'relative',
+                overflow: 'hidden',
+                background: 'rgba(18, 20, 32, 0.5)'
+              }}
+            >
+              {/* Project Visual Showcase (Dashboard Mockup Frame) */}
+              <div style={{
+                height: '180px',
+                background: '#090a0f',
+                position: 'relative',
+                borderBottom: '1px solid var(--border-glass)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden'
+              }}>
+                {/* Visual Radial Glow Accent */}
+                <div style={{
+                  position: 'absolute',
+                  width: '120px',
+                  height: '120px',
+                  borderRadius: '50%',
+                  background: project.color,
+                  filter: 'blur(45px)',
+                  opacity: 0.25,
+                  pointerEvents: 'none'
+                }}></div>
+
+                {/* Draw HTML simulated mockup widgets */}
+                <div style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1 }}>
+                  {renderVisualMockup(project)}
+                </div>
+
+                {/* Glowing MRR Badge in Upper Left Corner of Graphic */}
+                <div style={{
+                  position: 'absolute',
+                  top: '12px',
+                  left: '12px',
+                  fontSize: '0.75rem',
+                  fontWeight: '700',
+                  color: project.revenue.includes('mo') ? 'var(--accent-secondary)' : '#10b981',
+                  background: project.revenue.includes('mo') ? 'rgba(6,182,212,0.1)' : 'rgba(16,185,129,0.1)',
+                  border: `1px solid ${project.revenue.includes('mo') ? 'rgba(6,182,212,0.3)' : 'rgba(16,185,129,0.3)'}`,
+                  padding: '4px 10px',
+                  borderRadius: '100px',
+                  textTransform: 'uppercase',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  boxShadow: `0 0 10px ${project.color}11`,
+                  zIndex: 2
+                }}>
+                  <Flame size={12} fill="currentColor" /> {project.revenue}
+                </div>
+
+                {/* Category tag in Upper Right Corner */}
+                <div style={{
+                  position: 'absolute',
+                  top: '12px',
+                  right: '12px',
+                  fontSize: '0.7rem',
+                  fontWeight: '600',
+                  color: 'var(--text-muted)',
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid var(--border-glass)',
+                  padding: '3px 8px',
+                  borderRadius: '100px',
+                  textTransform: 'uppercase',
+                  zIndex: 2
+                }}>
+                  {project.category}
+                </div>
+              </div>
+
+              {/* Project Card Text Content */}
+              <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
+                
+                {/* Title */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                  <span style={{ color: project.color }}>{project.icon}</span>
+                  <h3 style={{ fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-main)' }}>
+                    {project.title}
+                  </h3>
+                </div>
+
+                {/* Description */}
+                <p style={{
+                  color: 'var(--text-muted)',
+                  fontSize: '0.9rem',
+                  lineHeight: '1.6',
+                  marginBottom: '20px',
+                  flexGrow: 1
+                }}>
+                  {project.desc}
+                </p>
+
+                {/* Users Count Metrics Info */}
+                <div style={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: '6px', 
+                  fontSize: '0.8rem', 
+                  color: 'var(--text-dark)',
+                  marginBottom: '20px',
+                  borderTop: '1px dashed var(--border-glass)',
+                  paddingTop: '12px'
+                }}>
+                  <Users size={14} style={{ color: 'var(--accent-secondary)' }} />
+                  <span>Installed & scaled by <strong style={{ color: 'var(--text-muted)' }}>{project.users}</strong></span>
+                </div>
+
+                {/* Link buttons */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  borderTop: '1px solid var(--border-glass)',
+                  paddingTop: '16px'
+                }}>
+                  <span style={{
+                    fontSize: '0.75rem',
+                    fontWeight: '600',
+                    color: 'var(--text-dark)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
+                  }}>
+                    {project.badge}
+                  </span>
+                  
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      color: project.color,
+                      fontSize: '0.85rem',
+                      fontWeight: '600',
+                      transition: 'var(--transition-fast)'
+                    }}
+                    className="hustle-link"
+                  >
+                    {project.linkText} <ExternalLink size={14} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-      
+
       <style>{`
-        @keyframes blink {
-          0%, 100% { opacity: 0.2 }
-          50% { opacity: 1 }
+        .hustle-link:hover {
+          color: #fff !important;
+          text-shadow: 0 0 8px currentColor;
         }
       `}</style>
     </section>

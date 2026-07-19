@@ -98,7 +98,7 @@ export default function Clients() {
           margin: '0 auto',
           position: 'relative'
         }}>
-          <div className="glass-panel" style={{
+          <div className="glass-panel clients-card-panel" style={{
             padding: '40px',
             position: 'relative',
             display: 'flex',
@@ -117,7 +117,7 @@ export default function Clients() {
             </div>
 
             {/* Quote */}
-            <p style={{
+            <p className="clients-quote-text" style={{
               fontSize: '1.2rem',
               lineHeight: '1.8',
               color: 'var(--text-main)',
@@ -212,6 +212,18 @@ export default function Clients() {
         .nav-arrow:hover {
           background: var(--accent-primary) !important;
           border-color: transparent !important;
+        }
+        @media (max-width: 600px) {
+          .clients-card-panel {
+            padding: 24px 16px !important;
+          }
+          .clients-quote-text {
+            font-size: 1rem !important;
+            line-height: 1.6 !important;
+          }
+          .brand-logo {
+            font-size: 0.95rem !important;
+          }
         }
       `}</style>
     </section>
