@@ -135,25 +135,6 @@ export default function Hero() {
               />
             </div>
           </div>
-
-          {/* 2. Interactive Terminal Info */}
-          <div className="glass-panel" style={{ width: '100%', padding: '24px', position: 'relative', overflow: 'hidden' }}>
-            {/* Terminal Header */}
-            <div className="terminal-header" style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-              paddingBottom: '12px',
-              marginBottom: '16px'
-            }}>
-              <div className="dots" style={{ display: 'flex', gap: '8px' }}>
-                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444' }}></span>
-                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#f59e0b' }}></span>
-                <span style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#10b981' }}></span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
       
