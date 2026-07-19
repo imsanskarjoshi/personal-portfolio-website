@@ -10,7 +10,7 @@ const videoSources = [
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false); // Default to unmuted
-  const [volume, setVolume] = useState(0.4);
+  const [volume, setVolume] = useState(0.5);
   const playerRef = useRef(null);
   const hasScrolledRef = useRef(false);
   const videoIndexRef = useRef(0);
@@ -29,7 +29,7 @@ export default function MusicPlayer() {
           width: '200',
           videoId: currentSource.id,
           playerVars: {
-            autoplay: 0,
+            autoplay: 1,
             controls: 0,
             disablekb: 1,
             loop: 1,
@@ -44,10 +44,9 @@ export default function MusicPlayer() {
               event.target.setVolume(volume * 100);
               event.target.unMute(); // Start unmuted
               
-              if (hasScrolledRef.current) {
-                event.target.playVideo();
-                setIsPlaying(true);
-              }
+              // Attempt to autoplay immediately
+              event.target.playVideo();
+              setIsPlaying(true);
             },
             onStateChange: (event) => {
               if (event.data === window.YT.PlayerState.PLAYING) {
@@ -132,6 +131,7 @@ export default function MusicPlayer() {
       window.removeEventListener('click', handleAutoplay);
       window.removeEventListener('keydown', handleAutoplay);
       window.removeEventListener('touchstart', handleAutoplay);
+      window.removeEventListener('mousemove', handleAutoplay);
     };
 
     window.addEventListener('scroll', handleAutoplay, { passive: true });
@@ -139,6 +139,7 @@ export default function MusicPlayer() {
     window.addEventListener('click', handleAutoplay, { passive: true });
     window.addEventListener('keydown', handleAutoplay, { passive: true });
     window.addEventListener('touchstart', handleAutoplay, { passive: true });
+    window.addEventListener('mousemove', handleAutoplay, { passive: true });
 
     return () => {
       removeListeners();
